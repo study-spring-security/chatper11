@@ -57,6 +57,16 @@ public class UserService {
             otp.setCode(code);
             otpRepository.save(otp);
         }
+    }
 
+    public boolean check(Otp optToValidate) {
+        Optional<Otp> userOtp = otpRepository.findOtpByUsername(optToValidate.getUsername());
+
+        if (userOtp.isPresent()) {
+            Otp otp = userOtp.get();
+
+            return optToValidate.getCode().equals(otp.getCode());
+        }
+        return false;
     }
 }
